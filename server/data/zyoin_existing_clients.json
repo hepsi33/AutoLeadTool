@@ -1,0 +1,98 @@
+[
+  {
+    "id": "cli-001",
+    "companyName": "Flipkart Online Services Pvt Ltd",
+    "normalizedName": "flipkart",
+    "parentCompany": "Walmart",
+    "subsidiary": "Myntra, PhonePe (formerly)",
+    "alternateNames": [
+      "Flipkart",
+      "Flipkart Internet",
+      "Flipkart India"
+    ],
+    "domain": "flipkart.com",
+    "industry": "E-Commerce & Retail Tech",
+    "relationshipType": "Enterprise Staffing & TA Partner",
+    "source": "Zyoin Master Partner Registry",
+    "sourceUrl": "https://zyoin.com/case-studies/flipkart-hiring",
+    "verificationStatus": "VERIFIED EXISTING",
+    "dateAdded": "2024-01-15",
+    "notes": "Long-standing recruitment partner for tech leadership & core engineering."
+  },
+  {
+    "id": "cli-002",
+    "companyName": "Swiggy (Bundl Technologies Pvt Ltd)",
+    "normalizedName": "swiggy",
+    "parentCompany": "",
+    "subsidiary": "Instamart",
+    "alternateNames": [
+      "Swiggy",
+      "Bundl Technologies"
+    ],
+    "domain": "swiggy.in",
+    "industry": "FoodTech & Hyperlocal Logistics",
+    "relationshipType": "Executive Search & Contract Staffing",
+    "source": "Zyoin Client Success Story",
+    "sourceUrl": "https://zyoin.com/clients/swiggy",
+    "verificationStatus": "VERIFIED EXISTING",
+    "dateAdded": "2024-02-10",
+    "notes": "Provided tech talent acquisition during expansion phase."
+  },
+  {
+    "id": "cli-003",
+    "companyName": "Razorpay Software Pvt Ltd",
+    "normalizedName": "razorpay",
+    "parentCompany": "",
+    "subsidiary": "Curlec, Thirdwatch",
+    "alternateNames": [
+      "Razorpay",
+      "Razorpay Payments"
+    ],
+    "domain": "razorpay.com",
+    "industry": "FinTech & Payments Infrastructure",
+    "relationshipType": "Tech Recruitment Partner",
+    "source": "Zyoin Official Website",
+    "sourceUrl": "https://zyoin.com/partners/razorpay",
+    "verificationStatus": "VERIFIED EXISTING",
+    "dateAdded": "2024-03-01",
+    "notes": "RPO provider for backend engineering & product management roles."
+  },
+  {
+    "id": "cli-004",
+    "companyName": "Infosys Limited",
+    "normalizedName": "infosys",
+    "parentCompany": "",
+    "subsidiary": "Infosys BPM, EdgeVerve",
+    "alternateNames": [
+      "Infosys",
+      "Infosys Tech"
+    ],
+    "domain": "infosys.com",
+    "industry": "IT Services & Consulting",
+    "relationshipType": "Corporate Vendor Agreement",
+    "source": "Zyoin Client Master CSV",
+    "sourceUrl": "https://zyoin.com/clients",
+    "verificationStatus": "VERIFIED EXISTING",
+    "dateAdded": "2023-11-20",
+    "notes": "Lateral hiring support across India technology hubs."
+  },
+  {
+    "id": "cli-005",
+    "companyName": "Tata Consultancy Services Ltd",
+    "normalizedName": "tata consultancy services",
+    "parentCompany": "Tata Group",
+    "subsidiary": "TCS iON",
+    "alternateNames": [
+      "TCS",
+      "Tata Consultancy Services"
+    ],
+    "domain": "tcs.com",
+    "industry": "IT Services & Consulting",
+    "relationshipType": "Sub-contracting Partner",
+    "source": "Zyoin Master Partner Registry",
+    "sourceUrl": "https://zyoin.com/clients",
+    "verificationStatus": "VERIFIED EXISTING",
+    "dateAdded": "2023-08-12",
+    "notes": "Niche skill recruitment for digital transformation projects."
+  }
+]

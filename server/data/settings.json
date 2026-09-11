@@ -1,0 +1,9 @@
+{
+  "scheduledTime": "06:00",
+  "timezone": "Asia/Kolkata",
+  "dailyTargetLeads": 50,
+  "targetGccs": 30,
+  "targetStartups": 20,
+  "autoRunEnabled": true,
+  "retryAttempts": 3
+}
