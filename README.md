@@ -1,8 +1,8 @@
-# 🎯 Zyoin Lead Intelligence — Automated BD Prospecting Platform
+# 🎯 Lead Intelligence — Automated BD Prospecting Platform
 
 > **Daily automated lead discovery engine** that identifies 50 high-growth companies (30 GCCs + 20 Startups) across India every working day — with zero manual research effort.
 
-Built for the **Zyoin Group** Business Development team to automate prospect identification, qualification, and report generation.
+Built for the Business Development  to automate prospect identification, qualification, and report generation.
 
 ---
 
@@ -12,7 +12,7 @@ Built for the **Zyoin Group** Business Development team to automate prospect ide
 |---------|-------------|
 | **🤖 Automated Daily Pipeline** | Runs every day at 06:00 AM IST — discovers, qualifies, scores, and generates Excel reports automatically |
 | **📊 50 Leads/Day** | 30 GCCs + 20 Startups with 0 overlap, strict deduplication across days |
-| **🛡️ 2-Level Zyoin Exclusion Engine** | Cross-checks against internal client database + public web evidence to avoid pitching existing clients |
+| **🛡️ 2-Level company Exclusion Engine** | Cross-checks against internal client database + public web evidence to avoid pitching existing clients |
 | **📈 Lead Scoring (0–100)** | Weighted scoring across 4 pillars: Hiring Activity, Growth Signals, Zyoin Relevance, India Opportunity |
 | **📥 Excel Report Downloads** | 4 professionally styled `.xlsx` reports generated per day (Startups, GCC, Summary, Exclusions) |
 | **🗺️ Pan-India Coverage** | 90+ cities across Tier 1, 2, and 3 — not limited to just metros |
@@ -29,11 +29,11 @@ AutoLeadTool/
 ├── client/                    # React + Vite Frontend
 │   ├── src/
 │   │   ├── App.jsx           # Main app with tab navigation
-│   │   ├── index.css         # Zyoin corporate design system
+│   │   ├── index.css         # company corporate design system
 │   │   └── components/
 │   │       ├── LeadsTab.jsx          # Dashboard leads table
 │   │       ├── ExportsTab.jsx        # Excel download center
-│   │       ├── ClientsTab.jsx        # Zyoin client database manager
+│   │       ├── ClientsTab.jsx        # company client database manager
 │   │       ├── ExclusionsTab.jsx     # Rejected companies log
 │   │       ├── SettingsTab.jsx       # Scheduler & pipeline settings
 │   │       ├── CompanySlidePanel.jsx # Lead detail slide-over
@@ -61,10 +61,10 @@ AutoLeadTool/
 │       └── settings.json
 │
 └── reports/                   # Generated Excel reports (date-stamped)
-    ├── Zyoin_Startups_YYYY-MM-DD.xlsx
-    ├── Zyoin_GCC_YYYY-MM-DD.xlsx
-    ├── Zyoin_Daily_Lead_Summary_YYYY-MM-DD.xlsx
-    └── Zyoin_Excluded_Companies_YYYY-MM-DD.xlsx
+    ├── Company_Startups_YYYY-MM-DD.xlsx
+    ├── Company_GCC_YYYY-MM-DD.xlsx
+    ├── Company_Daily_Lead_Summary_YYYY-MM-DD.xlsx
+    └── Company_Excluded_Companies_YYYY-MM-DD.xlsx
 ```
 
 ---
@@ -146,7 +146,7 @@ The automated pipeline executes every day at **06:00 AM IST** and performs these
 
 ```
 Step 1 → Discover 100+ candidate companies (date-rotated, deduplicated)
-Step 2 → Run 2-level Zyoin Exclusion Engine (Internal DB + Public Web)
+Step 2 → Run 2-level COmpany Exclusion Engine (Internal DB + Public Web)
 Step 3 → Verify hiring & growth signals, calculate lead scores
 Step 4 → Generate 4 styled Excel reports and persist to disk
 Step 5 → Archive results with full audit trail
@@ -156,8 +156,8 @@ Step 5 → Archive results with full audit trail
 
 | Report | Contents |
 |--------|----------|
-| **Zyoin Startups** | 28 columns: Company details, hiring data, growth evidence, BD angles, TA contacts |
-| **Zyoin GCC** | 34 columns: Parent MNC, GCC establishment details, expansion evidence |
+| **Company Startups** | 28 columns: Company details, hiring data, growth evidence, BD angles, TA contacts |
+| **Company GCC** | 34 columns: Parent MNC, GCC establishment details, expansion evidence |
 | **Daily Manager Summary** | Executive overview stats + full prospect table with website links |
 | **Excluded Companies** | Audit log of rejected companies with exclusion reasons |
 
@@ -193,7 +193,7 @@ Or use the **Settings** tab in the UI.
 | `POST` | `/api/research/run` | Trigger manual research |
 | `GET` | `/api/reports/archive` | Historical report archive |
 | `GET` | `/api/reports/download/:date/:type` | Download Excel report |
-| `GET` | `/api/clients` | Zyoin client database |
+| `GET` | `/api/clients` | Company client database |
 | `POST` | `/api/clients` | Add new client |
 | `POST` | `/api/clients/upload` | CSV bulk import |
 | `GET` | `/api/exclusions` | Excluded companies log |
@@ -210,7 +210,7 @@ Each lead is scored on a **0–100 scale** across 4 weighted pillars:
 |--------|-----------|---------|
 | **Hiring Activity** | 40 | Number of active tech openings |
 | **Growth Signals** | 25 | Funding, expansion, acquisitions |
-| **Zyoin Relevance** | 20 | Role alignment with Zyoin's strengths |
+| **Company Relevance** | 20 | Role alignment with Company's strengths |
 | **India Opportunity** | 15 | Presence in key India tech markets |
 
 ### Priority Classification
@@ -222,7 +222,7 @@ Each lead is scored on a **0–100 scale** across 4 weighted pillars:
 
 ## 📄 License
 
-This project is proprietary software built for **Zyoin Group**.
+This project is proprietary software built for **Hephzibah**.
 
 ---
 
