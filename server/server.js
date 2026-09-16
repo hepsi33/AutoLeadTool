@@ -50,6 +50,10 @@ app.get('/api/research/status', (req, res) => {
       todayDate: todayStr,
       status: todayRun.status,
       isSearching: todayRun.status === 'RUNNING',
+      progressPercent: todayRun.progressPercent || (todayRun.status === 'COMPLETED' ? 100 : 0),
+      currentCount: todayRun.currentCount || todayRun.finalLeadsCount || 0,
+      step: todayRun.status === 'RUNNING' ? 'Running research & scoring engine...' : 'Research Complete',
+      logs: todayRun.logs || [],
       run: todayRun
     });
   } else {
@@ -63,12 +67,15 @@ app.get('/api/research/status', (req, res) => {
 });
 
 // Manual Run / Override Trigger
-app.post('/api/research/run', async (req, res) => {
+app.post('/api/research/run', (req, res) => {
   const isForce = req.query.force === 'true' || req.body.force === true;
   const todayStr = getKolkataDateStr();
 
-  const result = await executeDailyResearchPipeline(todayStr, isForce);
-  res.json(result);
+  executeDailyResearchPipeline(todayStr, isForce).catch(err => {
+    console.error('Pipeline error:', err);
+  });
+
+  res.json({ status: 'RUNNING', message: 'Research pipeline launched in background.' });
 });
 
 // Settings Endpoints
@@ -147,7 +154,7 @@ app.get('/api/leads', (req, res) => {
 app.get('/api/reports/archive', (req, res) => {
   const runs = DB.getResearchRuns();
   const completedRuns = runs.filter(r => r.status === 'COMPLETED');
-  
+
   // Return list of available dates with their metrics
   const archive = completedRuns.map(r => ({
     date: r.date,
@@ -313,7 +320,9 @@ app.get('/api/exclusions', (req, res) => {
 });
 
 // Serve production frontend assets (Unified Single URL Server)
-const CLIENT_DIST = path.join(process.cwd(), 'client', 'dist');
+const CLIENT_DIST = fs.existsSync(path.join(process.cwd(), 'client', 'dist'))
+  ? path.join(process.cwd(), 'client', 'dist')
+  : path.resolve(__dirname, '../client/dist');
 if (fs.existsSync(CLIENT_DIST)) {
   app.use(express.static(CLIENT_DIST));
   app.get('*', (req, res, next) => {

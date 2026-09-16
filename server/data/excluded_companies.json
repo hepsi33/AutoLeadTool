@@ -1,5 +1,17 @@
 [
   {
+    "id": "exc-1789532886569-766",
+    "company": "Razorpay Tech (Scaleup Series D)",
+    "normalizedName": "razorpay scaleup series d",
+    "exclusionReason": "Matched Internal Database (High similarity match (85%))",
+    "zyoinRelationshipStatus": "VERIFIED EXISTING",
+    "evidence": "Internal DB Record #cli-003 - Tech Recruitment Partner",
+    "evidenceUrl": "https://zyoin.com/partners/razorpay",
+    "dateChecked": "2026-09-16",
+    "source": "System Pipeline",
+    "notes": ""
+  },
+  {
     "id": "exc-1789101596199-38",
     "company": "Zepto",
     "normalizedName": "zepto",

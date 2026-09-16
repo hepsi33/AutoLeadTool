@@ -99,6 +99,7 @@ export async function executeDailyResearchPipeline(targetDate = getKolkataDateSt
     startedAt: new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }),
     logs: [`[${new Date().toLocaleTimeString()}] Pipeline launched for ${targetDate}.`]
   };
+  DB.logResearchRun(runRecord);
 
   // Update or insert run record
   let currentLogs = runRecord.logs;
@@ -106,27 +107,26 @@ export async function executeDailyResearchPipeline(targetDate = getKolkataDateSt
   try {
     // 1. DISCOVER COMPANIES WITH DATE ROTATION & PREVIOUS QUALIFICATION EXCLUSION
     currentLogs.push(`[${new Date().toLocaleTimeString()}] Step 1/5: Discovering high-growth tech startups and expanding GCCs for date [${targetDate}]...`);
-    
+
     const previouslyQualified = new Set();
     const allLeadsInDb = DB.getAllQualifiedLeads();
     allLeadsInDb.forEach(l => {
-      if (l.researchDate && l.researchDate < targetDate) {
-        previouslyQualified.add((l.companyName || l.company || '').toLowerCase());
-      }
+      const name = (l.companyName || l.company || '').toLowerCase().trim();
+      if (name) previouslyQualified.add(name);
     });
 
     const history = DB.getHistory();
     history.forEach(h => {
-      if (h.lastResearched && h.lastResearched < targetDate) {
-        previouslyQualified.add((h.company || '').toLowerCase());
-      }
+      const name = (h.company || '').toLowerCase().trim();
+      if (name) previouslyQualified.add(name);
     });
 
     const settings = getSystemSettings();
     const targetGccLimit = settings.targetGccs || 30;
     const targetStartupLimit = settings.targetStartups || 20;
 
-    const rawCandidates = await discoverTargetCompanies(targetDate, 150, previouslyQualified);
+    const runOffset = runs.length + Math.floor(Date.now() / 1000);
+    const rawCandidates = await discoverTargetCompanies(targetDate, 150, previouslyQualified, runOffset);
     currentLogs.push(`[${new Date().toLocaleTimeString()}] Found ${rawCandidates.length} raw company candidates (Date rotation & deduplication active).`);
 
     let totalResearched = rawCandidates.length;
@@ -237,6 +237,17 @@ export async function executeDailyResearchPipeline(targetDate = getKolkataDateSt
         currentLogs.push(`[${new Date().toLocaleTimeString()}] ✅ QUALIFIED STARTUP (#${qualifiedStartups.length}/${targetStartupLimit}): ${compName} - Score ${finalLead.leadScore}`);
       }
 
+      // Update live research progress
+      const currentCount = qualifiedGccs.length + qualifiedStartups.length;
+      const progressPercent = Math.min(90, 15 + Math.floor((currentCount / (targetGccLimit + targetStartupLimit)) * 75));
+      DB.logResearchRun({
+        ...runRecord,
+        status: 'RUNNING',
+        progressPercent,
+        currentCount,
+        logs: [...currentLogs]
+      });
+
       if (qualifiedGccs.length >= targetGccLimit && qualifiedStartups.length >= targetStartupLimit) break;
     }
 
@@ -292,6 +303,8 @@ export async function executeDailyResearchPipeline(targetDate = getKolkataDateSt
     const finalRunObj = {
       ...runRecord,
       status: 'COMPLETED',
+      progressPercent: 100,
+      currentCount: qualifiedLeads.length,
       completedAt: new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }),
       totalResearched,
       existingRejected,

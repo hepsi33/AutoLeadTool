@@ -41,9 +41,7 @@ function readJson(filePath, defaultValue = []) {
 // Helper: safe write file
 function writeJson(filePath, data) {
   try {
-    const tempPath = `${filePath}.tmp`;
-    fs.writeFileSync(tempPath, JSON.stringify(data, null, 2), 'utf8');
-    fs.renameSync(tempPath, filePath);
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
   } catch (err) {
     console.error(`Error writing file ${filePath}:`, err);
   }
@@ -296,6 +294,20 @@ export const DB = {
     
     // Tag leads with research date
     const taggedLeads = newLeads.map(l => ({ ...l, researchDate: l.researchDate || dateToSave }));
+
+    // Automatically record all qualified leads into master company history for permanent deduplication across runs
+    taggedLeads.forEach(lead => {
+      const compName = lead.companyName || lead.company;
+      if (compName) {
+        this.upsertHistory({
+          company: compName,
+          domain: lead.website || lead.domain || '',
+          currentScore: lead.leadScore || 70,
+          currentHiringSignal: lead.hiringStatus || 'Active',
+          currentGrowthSignal: lead.growthSignal || 'Expanding'
+        });
+      }
+    });
 
     // Keep other dates' leads, overwrite current targetDate leads
     existingLeads = existingLeads.filter(l => l.researchDate !== dateToSave);

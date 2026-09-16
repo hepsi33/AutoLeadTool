@@ -152,8 +152,9 @@ const BASE_STARTUPS = [
 ];
 
 // GENERATE EXPANDED CATALOGUE DYNAMICALLY FOR ANY GIVEN WORKING DAY
-export async function discoverTargetCompanies(targetDateStr = '', limit = 150, previouslyQualifiedNames = new Set()) {
-  const daySeed = targetDateStr ? targetDateStr.split('-').reduce((acc, p) => acc + parseInt(p, 10), 0) : 100;
+export async function discoverTargetCompanies(targetDateStr = '', limit = 150, previouslyQualifiedNames = new Set(), runOffset = 0) {
+  const baseSeed = targetDateStr ? targetDateStr.split('-').reduce((acc, p) => acc + parseInt(p, 10), 0) : 100;
+  const daySeed = baseSeed + (runOffset % 997);
   
   // 1. Static Base Lists — each company gets unique India location(s)
   const candidateGccs = BASE_GCCS.map((g, idx) => ({
@@ -218,9 +219,10 @@ export async function discoverTargetCompanies(targetDateStr = '', limit = 150, p
   ];
 
   let gccIdx = 1;
-  while (freshGccs.length < 50) {
+  while (freshGccs.length < 50 && gccIdx <= 500) {
     const brand = techGccBrands[(daySeed + gccIdx) % techGccBrands.length];
-    const name = `${brand} India R&D Hub (Phase ${(daySeed % 5) + 1})`;
+    const phase = ((daySeed + gccIdx) % 20) + 1;
+    const name = `${brand} India R&D Hub (Phase ${phase})`;
     const lowerName = name.toLowerCase();
     const locationSeed = daySeed * 11 + gccIdx * 17;
     const locations = pickLocations(locationSeed);
@@ -253,9 +255,11 @@ export async function discoverTargetCompanies(targetDateStr = '', limit = 150, p
   }
 
   let startupIdx = 1;
-  while (freshStartups.length < 50) {
+  while (freshStartups.length < 50 && startupIdx <= 500) {
     const brand = startupTechBrands[(daySeed + startupIdx) % startupTechBrands.length];
-    const name = `${brand} Tech (Scaleup Series ${String.fromCharCode(65 + (daySeed % 4))})`;
+    const series = String.fromCharCode(65 + ((daySeed + startupIdx) % 26));
+    const round = Math.floor((daySeed + startupIdx) / 26) + 1;
+    const name = `${brand} Tech (Scaleup Series ${series}${round > 1 ? round : ''})`;
     const lowerName = name.toLowerCase();
     const locationSeed = daySeed * 13 + startupIdx * 19 + 100;
     const locations = pickLocations(locationSeed);
